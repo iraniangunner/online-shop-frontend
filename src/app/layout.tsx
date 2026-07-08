@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { AuthInitializer } from "@/components/AuthInitializer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -11,6 +12,38 @@ const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
+});
+
+const iranyekan = localFont({
+  src: [
+    {
+      path: "../../public/fonts/iranyekan/IRANYekanXFaNum-Light.woff2",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/iranyekan/IRANYekanXFaNum-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/iranyekan/IRANYekanXFaNum-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/iranyekan/IRANYekanXFaNum-Black.woff2",
+      weight: "900",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/iranyekan/IRANYekanXFaNum-ExtraBlack.woff2",
+      weight: "950",
+      style: "normal",
+    },
+  ],
+  variable: "--font-iranyekan",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -26,8 +59,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${iranyekan.variable} ${geistMono.variable} antialiased`}
       >
+        <AuthInitializer />
         {children}
       </body>
     </html>
