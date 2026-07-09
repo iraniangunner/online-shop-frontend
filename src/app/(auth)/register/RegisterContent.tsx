@@ -60,6 +60,24 @@ export function RegisterContent() {
 
         <div className="space-y-2">
           <label className="block text-[14px] font-medium text-[#242424] text-right">
+            شماره موبایل
+          </label>
+          <input
+            type="tel"
+            name="phone"
+            placeholder="09123456789"
+            dir="ltr"
+            required
+            pattern="09[0-9]{9}"
+            className="w-full px-4 py-3 rounded-xl border border-[#EDEDED] bg-white text-left
+                       placeholder:text-[#CBCBCB] text-[#242424]
+                       focus:outline-none focus:border-[#A72F3B] focus:ring-4 focus:ring-[#A72F3B]/10
+                       transition text-sm"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label className="block text-[14px] font-medium text-[#242424] text-right">
             رمز عبور
           </label>
           <input
