@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { AuthInitializer } from "@/components/AuthInitializer";
-
-
+import { Header } from "./_components/layout/Header";
+import { Footer } from "./_components/layout/Footer";
 
 const iranyekan = localFont({
   src: [
@@ -48,12 +48,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${iranyekan.variable} antialiased`}
-      >
+    <html lang="fa" dir="rtl">
+      <body className={`${iranyekan.variable} antialiased`}>
         <AuthInitializer />
-        {children}
+        <div className="min-h-screen flex flex-col">
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   );

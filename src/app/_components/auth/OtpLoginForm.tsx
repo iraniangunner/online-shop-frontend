@@ -7,9 +7,9 @@ import { sendOtpAction, verifyOtpAction } from "@/app/_actions/auth";
 import { SubmitButton } from "@/app/_components/auth/SubmitButton";
 import { OtpInput } from "@/app/_components/auth/OtpInput";
 import { ResendTimer } from "@/app/_components/auth/ResendTimer";
-import { useAuthStore } from "@/store/authStore";
+import { useAuthStore, getHomeRouteForRole } from "@/store/authStore";
 
-export function OtpLoginForm({ redirectUrl }: { redirectUrl: string }) {
+export function OtpLoginForm({ explicitRedirect }: { explicitRedirect: string | null }) {
   const router = useRouter();
   const fetchUser = useAuthStore((state) => state.fetchUser);
 
@@ -44,8 +44,13 @@ export function OtpLoginForm({ redirectUrl }: { redirectUrl: string }) {
   }, [sendState]);
 
   useEffect(() => {
-    if (verifyState.isSuccess) fetchUser().then(() => router.push(redirectUrl));
-  }, [verifyState, fetchUser, router, redirectUrl]);
+    if (verifyState.isSuccess) {
+      fetchUser().then(() => {
+        const role = useAuthStore.getState().user?.role;
+        router.push(explicitRedirect || getHomeRouteForRole(role || "customer"));
+      });
+    }
+  }, [verifyState, fetchUser, router, explicitRedirect]);
 
   function backToMobile() {
     setStep("mobile");

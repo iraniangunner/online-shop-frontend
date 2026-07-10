@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { authAPI } from "@/lib/api";
 import { logoutAction } from "@/app/_actions/auth";
 import { useAuthStore } from "@/store/authStore";
@@ -19,11 +20,8 @@ export default function DashboardPage() {
   }, [loading, user, router]);
 
   const handleLogout = async () => {
-    // ابطال توکن سمت لاراول
     await authAPI.logout().catch(() => {});
-    // پاک کردن کوکی‌های httpOnly سمت Next.js
     await logoutAction();
-    // پاک کردن state سمت کلاینت
     clearUser();
     router.push("/login");
   };
@@ -62,6 +60,21 @@ export default function DashboardPage() {
               {user.email}
             </span>
           </p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3 pt-2">
+          <Link
+            href="/booking/branch"
+            className="text-center py-3 rounded-xl bg-[#A72F3B] text-white text-sm font-medium hover:bg-[#8f2731] transition"
+          >
+            رزرو نوبت جدید
+          </Link>
+          <Link
+            href="/dashboard/appointments"
+            className="text-center py-3 rounded-xl border border-[#EDEDED] text-[#242424] text-sm font-medium hover:border-[#A72F3B] transition"
+          >
+            نوبت‌های من
+          </Link>
         </div>
       </div>
     </div>

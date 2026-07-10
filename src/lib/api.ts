@@ -109,7 +109,106 @@ api.interceptors.response.use(
 
 export default api;
 
+// ----------------------
+// Auth
+// ----------------------
 export const authAPI = {
   me: () => api.get("/me", { requiresAuth: true }),
   logout: () => api.post("/logout", {}, { requiresAuth: true }),
+};
+
+// ----------------------
+// عمومی (بدون نیاز به لاگین)
+// ----------------------
+export const branchesAPI = {
+  list: () => api.get("/branches"),
+  show: (id: number) => api.get(`/branches/${id}`),
+};
+
+export const servicesAPI = {
+  list: (params?: { branch_id?: number; category_id?: number }) =>
+    api.get("/services", { params }),
+  show: (id: number) => api.get(`/services/${id}`),
+};
+
+export const specialistsAPI = {
+  // متخصص‌هایی که همه‌ی خدمات انتخابی رو در یک شعبه پوشش می‌دن
+  forServices: (branchId: number, serviceIds: number[]) =>
+    api.get("/specialists", {
+      params: {
+        branch_id: branchId,
+        "service_ids[]": serviceIds,
+      },
+    }),
+};
+
+// ----------------------
+// رزرو نوبت (نیاز به لاگین مشتری)
+// ----------------------
+export const availabilityAPI = {
+  slots: (params: {
+    specialist_id: number;
+    branch_id: number;
+    date: string;
+    service_ids: number[];
+  }) =>
+    api.get("/available-slots", {
+      params: {
+        specialist_id: params.specialist_id,
+        branch_id: params.branch_id,
+        date: params.date,
+        "service_ids[]": params.service_ids,
+      },
+      requiresAuth: true,
+    }),
+};
+
+export const appointmentsAPI = {
+  list: () => api.get("/appointments", { requiresAuth: true }),
+  show: (id: number) => api.get(`/appointments/${id}`, { requiresAuth: true }),
+  create: (payload: {
+    branch_id: number;
+    specialist_id: number;
+    service_ids: number[];
+    date: string;
+    time: string;
+  }) => api.post("/appointments", payload, { requiresAuth: true }),
+  cancel: (id: number) =>
+    api.post(`/appointments/${id}/cancel`, {}, { requiresAuth: true }),
+  review: (id: number, payload: { rating: number; comment?: string }) =>
+    api.post(`/appointments/${id}/review`, payload, { requiresAuth: true }),
+};
+
+export const paymentsAPI = {
+  verify: (payload: { authority: string; status: string }) =>
+    api.post("/payments/verify", payload),
+};
+
+// ----------------------
+// پنل متخصص
+// ----------------------
+export const specialistAPI = {
+  appointments: (params?: { date?: string; status?: string }) =>
+    api.get("/specialist/appointments", { params, requiresAuth: true }),
+  updateAppointmentStatus: (id: number, status: string) =>
+    api.patch(
+      `/specialist/appointments/${id}/status`,
+      { status },
+      { requiresAuth: true }
+    ),
+
+  workingHours: () =>
+    api.get("/specialist/working-hours", { requiresAuth: true }),
+  replaceWorkingHours: (branchId: number, hours: { day_of_week: number; start_time: string; end_time: string }[]) =>
+    api.put(
+      "/specialist/working-hours",
+      { branch_id: branchId, hours },
+      { requiresAuth: true }
+    ),
+
+  timeOff: () => api.get("/specialist/time-off", { requiresAuth: true }),
+  createTimeOff: (payload: { starts_at: string; ends_at: string; reason?: string; branch_id?: number }) =>
+    api.post("/specialist/time-off", payload, { requiresAuth: true }),
+  deleteTimeOff: (id: number) =>
+    api.delete(`/specialist/time-off/${id}`, { requiresAuth: true }),
 };

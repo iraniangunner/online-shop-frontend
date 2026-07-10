@@ -4,7 +4,10 @@ import { authAPI } from "@/lib/api";
 interface User {
   id: number;
   name: string;
-  email: string;
+  email: string | null;
+  phone: string | null;
+  role: "customer" | "specialist" | "admin";
+  specialist_id: number | null;
 }
 
 interface AuthState {
@@ -33,3 +36,17 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   clearUser: () => set({ user: null, loading: false }),
 }));
+
+/**
+ * بر اساس نقش کاربر، مسیر پیش‌فرض بعد از لاگین رو مشخص می‌کنه.
+ */
+export function getHomeRouteForRole(role: User["role"]): string {
+  switch (role) {
+    case "admin":
+      return "/admin";
+    case "specialist":
+      return "/specialist/appointments";
+    default:
+      return "/dashboard";
+  }
+}
