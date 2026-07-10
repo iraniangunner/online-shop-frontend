@@ -32,12 +32,12 @@ export function Hero() {
             >
               رزرو نوبت
             </Link>
-            <Link
-              href="/services"
+            <a
+              href="#services"
               className="px-6 py-3.5 rounded-xl border border-[#EDEDED] bg-white text-[#242424] text-sm font-medium text-center hover:border-[#A72F3B] transition"
             >
               مشاهده‌ی خدمات
-            </Link>
+            </a>
           </div>
         </div>
 
@@ -56,7 +56,7 @@ export function Hero() {
               </div>
               <div className="space-y-1 text-right">
                 <p className="text-sm font-semibold text-[#242424]">
-                  پاکسازی پوست + لیزر
+                  پاکسازی پوست
                 </p>
                 <p className="text-xs text-[#898989]">
                   دکتر نمونه · شعبه مرکزی
