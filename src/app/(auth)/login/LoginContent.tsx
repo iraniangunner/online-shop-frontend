@@ -12,14 +12,32 @@ import { useAuthStore, getHomeRouteForRole } from "@/store/authStore";
 type Tab = "email" | "otp";
 
 const MailIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <rect x="2" y="4" width="20" height="16" rx="2" />
     <path d="m22 7-10 5L2 7" />
   </svg>
 );
 
 const MessageIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
   </svg>
 );
@@ -50,7 +68,9 @@ export function LoginContent() {
     if (loginState.isSuccess) {
       fetchUser().then(() => {
         const role = useAuthStore.getState().user?.role;
-        router.push(explicitRedirect || getHomeRouteForRole(role || "customer"));
+        router.push(
+          explicitRedirect || getHomeRouteForRole(role || "customer"),
+        );
       });
     }
   }, [loginState, fetchUser, router, explicitRedirect]);
@@ -78,19 +98,13 @@ export function LoginContent() {
           <div
             className="absolute inset-y-1 left-1 w-[calc(50%-6px)] bg-white rounded-lg shadow-sm border border-[#EDEDED] transition-transform duration-300 ease-out"
             style={{
-              transform: tab === "otp" ? "translateX(calc(100% + 8px))" : "translateX(0)",
+              transform:
+                tab === "otp"
+                  ? "translateX(calc(100% + 8px))"
+                  : "translateX(0)",
             }}
           />
-          <button
-            type="button"
-            onClick={() => setTab("email")}
-            className={`relative z-10 flex items-center justify-center gap-1.5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 ${
-              tab === "email" ? "text-[#A72F3B]" : "text-[#898989]"
-            }`}
-          >
-            <MailIcon />
-            ایمیل
-          </button>
+
           <button
             type="button"
             onClick={() => setTab("otp")}
@@ -100,6 +114,16 @@ export function LoginContent() {
           >
             <MessageIcon />
             پیامک
+          </button>
+          <button
+            type="button"
+            onClick={() => setTab("email")}
+            className={`relative z-10 flex items-center justify-center gap-1.5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 ${
+              tab === "email" ? "text-[#A72F3B]" : "text-[#898989]"
+            }`}
+          >
+            <MailIcon />
+            ایمیل
           </button>
         </div>
 
@@ -167,7 +191,9 @@ export function LoginContent() {
             </form>
           )}
 
-          {tab === "otp" && <OtpLoginForm explicitRedirect={explicitRedirect} />}
+          {tab === "otp" && (
+            <OtpLoginForm explicitRedirect={explicitRedirect} />
+          )}
         </div>
       </div>
 
