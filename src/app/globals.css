@@ -113,6 +113,19 @@ body {
   font-weight: 700 !important;
 }
 
+/* بازه‌ی بین تاریخ شروع و پایان (range mode) */
+.rmdp-range {
+  background-color: #fbeaea !important;
+  color: #a72f3b !important;
+  box-shadow: none !important;
+}
+
+.rmdp-range.start,
+.rmdp-range.end {
+  background-color: #a72f3b !important;
+  color: #ffffff !important;
+}
+
 .rmdp-today span {
   background-color: #f7f7f7 !important;
   color: #a72f3b !important;

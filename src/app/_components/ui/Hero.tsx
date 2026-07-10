@@ -32,12 +32,12 @@ export function Hero() {
             >
               رزرو نوبت
             </Link>
-            <a
-              href="#services"
+            <Link
+              href="/services"
               className="px-6 py-3.5 rounded-xl border border-[#EDEDED] bg-white text-[#242424] text-sm font-medium text-center hover:border-[#A72F3B] transition"
             >
               مشاهده‌ی خدمات
-            </a>
+            </Link>
           </div>
         </div>
 
