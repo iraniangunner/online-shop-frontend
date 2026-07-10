@@ -177,20 +177,20 @@ export default function DateTimeSelectionPage() {
         <button
           onClick={goToNextWeek}
           disabled={weekOffset >= maxWeekOffset}
-          className="w-8 h-8 rounded-lg border border-[#EDEDED] flex items-center justify-center text-[#898989]
-                     hover:border-[#A72F3B] hover:text-[#A72F3B] transition disabled:opacity-30 disabled:pointer-events-none"
+          className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg border border-[#EDEDED] flex items-center justify-center text-[#898989]
+                     hover:border-[#A72F3B] hover:text-[#A72F3B] transition disabled:opacity-30 disabled:pointer-events-none shrink-0"
           aria-label="هفته‌ی بعد"
         >
           <ChevronRight />
         </button>
-        <span className="text-sm font-semibold text-[#242424]">
+        <span className="text-xs sm:text-sm font-semibold text-[#242424]">
           {monthLabel}
         </span>
         <button
           onClick={goToPrevWeek}
           disabled={weekOffset === 0}
-          className="w-8 h-8 rounded-lg border border-[#EDEDED] flex items-center justify-center text-[#898989]
-                     hover:border-[#A72F3B] hover:text-[#A72F3B] transition disabled:opacity-30 disabled:pointer-events-none"
+          className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg border border-[#EDEDED] flex items-center justify-center text-[#898989]
+                     hover:border-[#A72F3B] hover:text-[#A72F3B] transition disabled:opacity-30 disabled:pointer-events-none shrink-0"
           aria-label="هفته‌ی قبل"
         >
           <ChevronLeft />
@@ -198,7 +198,7 @@ export default function DateTimeSelectionPage() {
       </div>
 
       {/* روزهای همین هفته */}
-      <div className="grid grid-cols-7 gap-1.5">
+      <div className="grid grid-cols-7 gap-1 sm:gap-1.5">
         {pageDays.map((day) => {
           const key = toDateKey(day);
           const isSelected = key === selectedDate;
@@ -210,7 +210,7 @@ export default function DateTimeSelectionPage() {
               onClick={() => !isUnavailable && setSelectedDate(key)}
               disabled={isUnavailable}
               title={isUnavailable ? "ساعت خالی ندارد" : undefined}
-              className={`flex flex-col items-center gap-1 py-2.5 rounded-xl border transition-colors duration-200 ${
+              className={`flex flex-col items-center gap-0.5 sm:gap-1 py-1.5 sm:py-2.5 px-0.5 rounded-lg sm:rounded-xl border transition-colors duration-200 min-w-0 ${
                 isUnavailable
                   ? "bg-[#F7F7F7] border-transparent text-[#CBCBCB] cursor-not-allowed"
                   : isSelected
@@ -218,15 +218,15 @@ export default function DateTimeSelectionPage() {
                     : "bg-white border-[#EDEDED] text-[#242424] hover:border-[#A72F3B]"
               }`}
             >
-              <span className="text-[10px] opacity-80">
+              <span className="text-[8px] sm:text-[10px] opacity-80 truncate w-full text-center">
                 {day.toLocaleDateString("fa-IR", { weekday: "short" })}
               </span>
-              <span className="text-sm font-bold">
+              <span className="text-xs sm:text-sm font-bold">
                 {day.toLocaleDateString("fa-IR", { day: "numeric" })}
               </span>
               {/* نشونگر نقطه‌ای: سبز = ساعت خالی داره، بدون نقطه = مشخص نیست/نداره */}
               <span
-                className={`w-1.5 h-1.5 rounded-full ${
+                className={`w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full ${
                   isUnavailable
                     ? "bg-transparent"
                     : isSelected
