@@ -1,7 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import DatePicker, { DateObject } from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
+import TimePicker from "react-multi-date-picker/plugins/time_picker";
 import { specialistAPI, branchesAPI } from "@/lib/api";
+import { DateInputButton } from "@/app/_components/ui/DateInputButton";
 import type { Branch } from "@/types";
 
 const DAYS = [
@@ -16,8 +21,21 @@ const DAYS = [
 
 interface DayRow {
   enabled: boolean;
-  start_time: string;
-  end_time: string;
+  start_time: string; // "HH:mm"
+  end_time: string; // "HH:mm"
+}
+
+// رشته‌ی "HH:mm" رو به DateObject (برای نمایش توی TimePicker) تبدیل می‌کنه
+function timeStringToDateObject(time: string): DateObject {
+  const [h, m] = time.split(":").map(Number);
+  return new DateObject({ calendar: persian }).set({ hour: h, minute: m, second: 0 });
+}
+
+// برعکسش: DateObject رو به رشته‌ی "HH:mm" برمی‌گردونه
+function dateObjectToTimeString(value: DateObject | null): string {
+  if (!value) return "00:00";
+  const d = value.toDate();
+  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
 }
 
 export default function WorkingHoursPage() {
@@ -25,11 +43,8 @@ export default function WorkingHoursPage() {
   const [branchId, setBranchId] = useState<number | null>(null);
   const [rows, setRows] = useState<Record<number, DayRow>>(
     Object.fromEntries(
-      DAYS.map((d) => [
-        d.value,
-        { enabled: false, start_time: "09:00", end_time: "17:00" },
-      ]),
-    ),
+      DAYS.map((d) => [d.value, { enabled: false, start_time: "09:00", end_time: "17:00" }])
+    )
   );
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -50,15 +65,11 @@ export default function WorkingHoursPage() {
     specialistAPI
       .workingHours()
       .then((res) => {
-        const existing = res.data.filter(
-          (wh: any) => wh.branch_id === branchId,
-        );
+        const existing = res.data.filter((wh: any) => wh.branch_id === branchId);
         setRows((prev) => {
           const next = { ...prev };
           for (const day of DAYS) {
-            const match = existing.find(
-              (wh: any) => wh.day_of_week === day.value,
-            );
+            const match = existing.find((wh: any) => wh.day_of_week === day.value);
             next[day.value] = match
               ? {
                   enabled: true,
@@ -103,9 +114,7 @@ export default function WorkingHoursPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-lg font-bold text-[#242424] text-right">
-        ساعات کاری
-      </h1>
+      <h1 className="text-lg font-bold text-[#242424] text-right">ساعات کاری</h1>
 
       {branches.length > 1 && (
         <select
@@ -138,32 +147,44 @@ export default function WorkingHoursPage() {
                   <input
                     type="checkbox"
                     checked={row.enabled}
-                    onChange={(e) =>
-                      updateRow(day.value, { enabled: e.target.checked })
-                    }
+                    onChange={(e) => updateRow(day.value, { enabled: e.target.checked })}
                     className="w-4 h-4 accent-[#A72F3B]"
                   />
                   <span className="text-sm text-[#242424]">{day.label}</span>
                 </label>
 
                 {row.enabled && (
-                  <div className="flex items-center gap-2 flex-1" dir="ltr">
-                    <input
-                      type="time"
-                      value={row.start_time}
-                      onChange={(e) =>
-                        updateRow(day.value, { start_time: e.target.value })
+                  <div className="flex items-center gap-2 flex-1">
+                    <DatePicker
+                      value={timeStringToDateObject(row.start_time)}
+                      onChange={(value) =>
+                        updateRow(day.value, {
+                          start_time: dateObjectToTimeString(value as DateObject),
+                        })
                       }
-                      className="px-2 py-1.5 rounded-lg border border-[#EDEDED] text-sm flex-1"
+                      disableDayPicker
+                      format="HH:mm"
+                      calendar={persian}
+                      locale={persian_fa}
+                      plugins={[<TimePicker key="time" hideSeconds />]}
+                      calendarPosition="bottom-right"
+                      render={DateInputButton({ withTime: true, placeholder: "ساعت شروع" })}
                     />
-                    <span className="text-[#898989] text-xs">تا</span>
-                    <input
-                      type="time"
-                      value={row.end_time}
-                      onChange={(e) =>
-                        updateRow(day.value, { end_time: e.target.value })
+                    <span className="text-[#898989] text-xs shrink-0">تا</span>
+                    <DatePicker
+                      value={timeStringToDateObject(row.end_time)}
+                      onChange={(value) =>
+                        updateRow(day.value, {
+                          end_time: dateObjectToTimeString(value as DateObject),
+                        })
                       }
-                      className="px-2 py-1.5 rounded-lg border border-[#EDEDED] text-sm flex-1"
+                      disableDayPicker
+                      format="HH:mm"
+                      calendar={persian}
+                      locale={persian_fa}
+                      plugins={[<TimePicker key="time" hideSeconds />]}
+                      calendarPosition="bottom-right"
+                      render={DateInputButton({ withTime: true, placeholder: "ساعت پایان" })}
                     />
                   </div>
                 )}

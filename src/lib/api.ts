@@ -104,7 +104,7 @@ api.interceptors.response.use(
 
       return Promise.reject(err);
     }
-  }
+  },
 );
 
 export default api;
@@ -161,6 +161,24 @@ export const availabilityAPI = {
       },
       requiresAuth: true,
     }),
+
+  unavailableDays: (params: {
+    specialist_id: number;
+    branch_id: number;
+    service_ids: number[];
+    start_date: string;
+    days?: number;
+  }) =>
+    api.get("/unavailable-days", {
+      params: {
+        specialist_id: params.specialist_id,
+        branch_id: params.branch_id,
+        start_date: params.start_date,
+        days: params.days ?? 14,
+        "service_ids[]": params.service_ids,
+      },
+      requiresAuth: true,
+    }),
 };
 
 export const appointmentsAPI = {
@@ -194,21 +212,28 @@ export const specialistAPI = {
     api.patch(
       `/specialist/appointments/${id}/status`,
       { status },
-      { requiresAuth: true }
+      { requiresAuth: true },
     ),
 
   workingHours: () =>
     api.get("/specialist/working-hours", { requiresAuth: true }),
-  replaceWorkingHours: (branchId: number, hours: { day_of_week: number; start_time: string; end_time: string }[]) =>
+  replaceWorkingHours: (
+    branchId: number,
+    hours: { day_of_week: number; start_time: string; end_time: string }[],
+  ) =>
     api.put(
       "/specialist/working-hours",
       { branch_id: branchId, hours },
-      { requiresAuth: true }
+      { requiresAuth: true },
     ),
 
   timeOff: () => api.get("/specialist/time-off", { requiresAuth: true }),
-  createTimeOff: (payload: { starts_at: string; ends_at: string; reason?: string; branch_id?: number }) =>
-    api.post("/specialist/time-off", payload, { requiresAuth: true }),
+  createTimeOff: (payload: {
+    starts_at: string;
+    ends_at: string;
+    reason?: string;
+    branch_id?: number;
+  }) => api.post("/specialist/time-off", payload, { requiresAuth: true }),
   deleteTimeOff: (id: number) =>
     api.delete(`/specialist/time-off/${id}`, { requiresAuth: true }),
 };

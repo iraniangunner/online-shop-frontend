@@ -1,38 +1,57 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import DatePicker, { DateObject } from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
 import { specialistAPI } from "@/lib/api";
 import { StatusBadge } from "@/app/_components/dashboard/StatusBadge";
+import { DateInputButton } from "@/app/_components/ui/DateInputButton";
 import type { Appointment } from "@/types";
 
+// روز هفته + روز و ماه رو جدا می‌گیریم و دستی به ترتیب درست کنار هم می‌ذاریم
+// (ترتیب پیش‌فرض toLocaleDateString با چند آپشن هم‌زمان قابل‌اعتماد نیست)
 function formatJalali(dateTimeStr: string) {
   const date = new Date(dateTimeStr);
-  return {
-    dateLabel: date.toLocaleDateString("fa-IR", { weekday: "short", day: "numeric", month: "short" }),
-    timeLabel: date.toLocaleTimeString("fa-IR", { hour: "2-digit", minute: "2-digit" }),
-  };
+  const weekday = date.toLocaleDateString("fa-IR", { weekday: "short" });
+  const dayMonth = date.toLocaleDateString("fa-IR", {
+    day: "numeric",
+    month: "short",
+  });
+  const timeLabel = date.toLocaleTimeString("fa-IR", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  return { dateLabel: `${weekday} ${dayMonth}`, timeLabel };
 }
 
-function todayKey() {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+function toDateKey(date: Date): string {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
 }
 
 export default function SpecialistAppointmentsPage() {
-  const [date, setDate] = useState(todayKey());
+  const [selectedDate, setSelectedDate] = useState<DateObject>(
+    new DateObject({ calendar: persian }),
+  );
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [updatingId, setUpdatingId] = useState<number | null>(null);
 
+  const dateKey = toDateKey(selectedDate.toDate());
+
   const fetchAppointments = useCallback(() => {
     setLoading(true);
     specialistAPI
-      .appointments({ date })
+      .appointments({ date: dateKey })
       .then((res) => setAppointments(res.data.data ?? res.data))
       .catch(() => setError("خطا در دریافت نوبت‌ها"))
       .finally(() => setLoading(false));
-  }, [date]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dateKey]);
 
   useEffect(() => {
     fetchAppointments();
@@ -53,13 +72,19 @@ export default function SpecialistAppointmentsPage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="px-3 py-2 rounded-xl border border-[#EDEDED] bg-white text-sm focus:outline-none focus:border-[#A72F3B]"
-        />
-        <h1 className="text-lg font-bold text-[#242424]">نوبت‌های امروز</h1>
+        <h1 className="text-lg font-bold text-[#242424]">نوبت‌های این روز</h1>
+        <div className="w-40">
+          <DatePicker
+            value={selectedDate}
+            onChange={(value) => {
+              if (value) setSelectedDate(value as DateObject);
+            }}
+            calendar={persian}
+            locale={persian_fa}
+            calendarPosition="bottom-right"
+            render={DateInputButton({ placeholder: "انتخاب تاریخ" })}
+          />
+        </div>
       </div>
 
       {loading && (

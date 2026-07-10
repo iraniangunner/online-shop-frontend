@@ -46,13 +46,13 @@ export default function AppointmentsPage() {
     <div className="min-h-screen bg-[#F7F7F7] px-4 py-6">
       <div className="max-w-lg mx-auto space-y-4">
         <div className="flex items-center justify-between">
+          <h1 className="text-lg font-bold text-[#242424]">نوبت‌های من</h1>
           <Link
             href="/booking/branch"
             className="text-sm text-[#A72F3B] font-medium hover:underline"
           >
             + رزرو نوبت جدید
           </Link>
-          <h1 className="text-lg font-bold text-[#242424]">نوبت‌های من</h1>
         </div>
 
         {loading && (

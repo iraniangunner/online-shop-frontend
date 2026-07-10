@@ -27,6 +27,165 @@ body {
   }
 }
 
-.full-screen {
-  margin-top: 0 !important;
+/* ============================
+   استایل سفارشی تقویم جلالی (react-multi-date-picker)
+   هماهنگ با پالت رنگی سایت (#A72F3B)
+============================ */
+
+/* --- کادر بیرونی پاپ‌آپ --- */
+.rmdp-wrapper {
+  font-family: var(--font-iranyekan), sans-serif !important;
+  border-radius: 1.25rem !important;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(36, 36, 36, 0.12) !important;
+  border: 1px solid #ededed !important;
+  background: #ffffff !important;
+}
+
+.rmdp-calendar {
+  padding: 1rem !important;
+  width: 280px !important;
+}
+
+/* --- هدر (ماه/سال + فلش‌های جابه‌جایی) --- */
+.rmdp-header {
+  margin-bottom: 0.5rem !important;
+}
+
+.rmdp-header-values {
+  font-weight: 700 !important;
+  color: #242424 !important;
+  font-size: 0.95rem !important;
+  background: transparent !important;
+}
+
+.rmdp-arrow-container {
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 0.6rem !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.rmdp-arrow-container:hover {
+  background-color: #fbeaea !important;
+  box-shadow: none !important;
+}
+
+.rmdp-arrow {
+  border-color: #a72f3b !important;
+  margin: 0 !important;
+}
+
+/* --- نام روزهای هفته --- */
+.rmdp-week-day {
+  color: #898989 !important;
+  font-weight: 500 !important;
+  font-size: 0.75rem !important;
+}
+
+/* --- خود روزها --- */
+.rmdp-day {
+  padding: 2px !important;
+}
+
+.rmdp-day span {
+  border-radius: 0.65rem !important;
+  font-size: 0.8rem !important;
+  font-weight: 500 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.rmdp-day:not(.rmdp-disabled):not(.rmdp-day-hidden) span:hover {
+  background-color: #fbeaea !important;
+  color: #a72f3b !important;
+  box-shadow: none !important;
+}
+
+.rmdp-day.rmdp-selected span:not(.highlight) {
+  background-color: #a72f3b !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+  font-weight: 700 !important;
+}
+
+.rmdp-today span {
+  background-color: #f7f7f7 !important;
+  color: #a72f3b !important;
+  font-weight: 700 !important;
+}
+
+.rmdp-day.rmdp-disabled span {
+  color: #cbcbcb !important;
+}
+
+/* --- انتخابگر ماه/سال (وقتی روی هدر کلیک می‌کنی) --- */
+.rmdp-month-picker,
+.rmdp-year-picker {
+  background: #ffffff !important;
+}
+
+.rmdp-month-picker .rmdp-day span,
+.rmdp-year-picker .rmdp-day span {
+  border-radius: 0.6rem !important;
+  font-size: 0.8rem !important;
+}
+
+/* --- تایم‌پیکر --- */
+.rmdp-time-picker {
+  padding-top: 0.75rem !important;
+  margin-top: 0.5rem !important;
+  border-top: 1px dashed #ededed !important;
+}
+
+.rmdp-time-picker div input {
+  color: #242424 !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  width: 2.2rem !important;
+}
+
+.rmdp-time-picker .rmdp-am {
+  color: #898989 !important;
+  border: 1px solid #ededed !important;
+  border-radius: 0.5rem !important;
+}
+
+.rmdp-time-picker .rmdp-arrow-container {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+/* --- فوتر (دکمه‌ی امروز/تأیید در صورت وجود) --- */
+.rmdp-button {
+  background-color: #a72f3b !important;
+  border-radius: 0.6rem !important;
+}
+
+.rmdp-action-button {
+  color: #a72f3b !important;
+  font-family: var(--font-iranyekan), sans-serif !important;
+}
+
+/* --- input سفارشی خودمون (DateInputButton) --- */
+.rmdp-input-custom {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid #ededed;
+  background: #ffffff;
+  font-size: 0.875rem;
+  text-align: center;
+  color: #242424;
+  font-family: var(--font-iranyekan), sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.rmdp-input-custom:focus {
+  border-color: #a72f3b;
+  box-shadow: 0 0 0 4px rgba(167, 47, 59, 0.1);
 }

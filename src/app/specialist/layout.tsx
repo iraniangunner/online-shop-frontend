@@ -50,21 +50,6 @@ export default function SpecialistLayout({
 
   return (
     <div className="min-h-screen bg-[#F7F7F7]">
-      <header className="bg-white border-b border-[#EDEDED] px-4 py-3">
-        <div className="max-w-2xl mx-auto flex items-center justify-between">
-          <button
-            onClick={handleLogout}
-            className="text-xs text-[#C30000] bg-[#FBEAEA] px-3 py-1.5 rounded-lg hover:bg-[#f5d9d9] transition"
-          >
-            خروج
-          </button>
-          <div className="text-right">
-            <p className="text-sm font-bold text-[#242424]">پنل متخصص</p>
-            <p className="text-xs text-[#898989]">{user.name}</p>
-          </div>
-        </div>
-      </header>
-
       <nav className="bg-white border-b border-[#EDEDED] px-4">
         <div className="max-w-2xl mx-auto flex gap-1">
           {NAV_ITEMS.map((item) => {
