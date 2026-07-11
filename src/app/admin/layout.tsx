@@ -8,6 +8,7 @@ import { logoutAction } from "@/app/_actions/auth";
 import { useAuthStore } from "@/store/authStore";
 
 const NAV_ITEMS = [
+  { href: "/admin/dashboard", label: "داشبورد" },
   { href: "/admin/appointments", label: "نوبت‌ها" },
   { href: "/admin/branches", label: "شعبه‌ها" },
   { href: "/admin/services", label: "خدمات" },

@@ -43,7 +43,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 export function getHomeRouteForRole(role: User["role"]): string {
   switch (role) {
     case "admin":
-      return "/admin";
+      return "/admin/dashboard";
     case "specialist":
       return "/specialist/appointments";
     default:

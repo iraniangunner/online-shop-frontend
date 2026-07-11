@@ -122,7 +122,7 @@ export default function AppointmentsPage() {
         }}
       />
     ),
-    [],
+    []
   );
 
   function openCancelModal(appointment: Appointment) {
@@ -230,11 +230,14 @@ export default function AppointmentsPage() {
           const canReview =
             appointment.status === "completed" && !appointment.review;
 
-          if (!canCancel && !canReview)
-            return <span className="text-xs text-[#CBCBCB]">—</span>;
-
           return (
             <div className="flex gap-3">
+              <Link
+                href={`/dashboard/appointments/${appointment.id}`}
+                className="text-xs text-[#242424] hover:underline"
+              >
+                مشاهده
+              </Link>
               {canCancel && (
                 <button
                   onClick={() => openCancelModal(appointment)}
@@ -256,7 +259,7 @@ export default function AppointmentsPage() {
         },
       },
     ],
-    [],
+    []
   );
 
   const inputClass =
@@ -274,13 +277,13 @@ export default function AppointmentsPage() {
     <div className="min-h-screen bg-[#F7F7F7] px-4 py-6">
       <div className="max-w-4xl mx-auto space-y-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-lg font-bold text-[#242424]">نوبت‌های من</h1>
           <Link
             href="/booking/branch"
             className="text-sm text-[#A72F3B] font-medium hover:underline"
           >
             + رزرو نوبت جدید
           </Link>
+          <h1 className="text-lg font-bold text-[#242424]">نوبت‌های من</h1>
         </div>
 
         {/* فیلترها */}

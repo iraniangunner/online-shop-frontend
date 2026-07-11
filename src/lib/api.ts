@@ -182,8 +182,12 @@ export const availabilityAPI = {
 };
 
 export const appointmentsAPI = {
-  list: (params?: { page?: number; status?: string; date_from?: string; date_to?: string }) =>
-    api.get("/appointments", { params, requiresAuth: true }),
+  list: (params?: {
+    page?: number;
+    status?: string;
+    date_from?: string;
+    date_to?: string;
+  }) => api.get("/appointments", { params, requiresAuth: true }),
   show: (id: number) => api.get(`/appointments/${id}`, { requiresAuth: true }),
   create: (payload: {
     branch_id: number;
@@ -218,7 +222,10 @@ export const specialistAPI = {
 
   workingHours: () =>
     api.get("/specialist/working-hours", { requiresAuth: true }),
-  replaceWorkingHours: (branchId: number, hours: { day_of_week: number; start_time: string; end_time: string }[]) =>
+  replaceWorkingHours: (
+    branchId: number,
+    hours: { day_of_week: number; start_time: string; end_time: string }[]
+  ) =>
     api.put(
       "/specialist/working-hours",
       { branch_id: branchId, hours },
@@ -226,8 +233,12 @@ export const specialistAPI = {
     ),
 
   timeOff: () => api.get("/specialist/time-off", { requiresAuth: true }),
-  createTimeOff: (payload: { starts_at: string; ends_at: string; reason?: string; branch_id?: number }) =>
-    api.post("/specialist/time-off", payload, { requiresAuth: true }),
+  createTimeOff: (payload: {
+    starts_at: string;
+    ends_at: string;
+    reason?: string;
+    branch_id?: number;
+  }) => api.post("/specialist/time-off", payload, { requiresAuth: true }),
   deleteTimeOff: (id: number) =>
     api.delete(`/specialist/time-off/${id}`, { requiresAuth: true }),
 };
@@ -236,48 +247,82 @@ export const specialistAPI = {
 // پنل ادمین
 // ----------------------
 export const adminAPI = {
+  dashboard: () => api.get("/admin/dashboard", { requiresAuth: true }),
+
   // شعبه‌ها
   branches: {
-    list: (page = 1) => api.get("/admin/branches", { params: { page }, requiresAuth: true }),
-    show: (id: number) => api.get(`/admin/branches/${id}`, { requiresAuth: true }),
-    create: (payload: any) => api.post("/admin/branches", payload, { requiresAuth: true }),
-    update: (id: number, payload: any) => api.put(`/admin/branches/${id}`, payload, { requiresAuth: true }),
-    delete: (id: number) => api.delete(`/admin/branches/${id}`, { requiresAuth: true }),
+    list: (page = 1) =>
+      api.get("/admin/branches", { params: { page }, requiresAuth: true }),
+    show: (id: number) =>
+      api.get(`/admin/branches/${id}`, { requiresAuth: true }),
+    create: (payload: any) =>
+      api.post("/admin/branches", payload, { requiresAuth: true }),
+    update: (id: number, payload: any) =>
+      api.put(`/admin/branches/${id}`, payload, { requiresAuth: true }),
+    delete: (id: number) =>
+      api.delete(`/admin/branches/${id}`, { requiresAuth: true }),
   },
 
   // دسته‌بندی خدمات
   serviceCategories: {
     list: () => api.get("/admin/service-categories", { requiresAuth: true }),
-    create: (payload: any) => api.post("/admin/service-categories", payload, { requiresAuth: true }),
-    update: (id: number, payload: any) => api.put(`/admin/service-categories/${id}`, payload, { requiresAuth: true }),
-    delete: (id: number) => api.delete(`/admin/service-categories/${id}`, { requiresAuth: true }),
+    create: (payload: any) =>
+      api.post("/admin/service-categories", payload, { requiresAuth: true }),
+    update: (id: number, payload: any) =>
+      api.put(`/admin/service-categories/${id}`, payload, {
+        requiresAuth: true,
+      }),
+    delete: (id: number) =>
+      api.delete(`/admin/service-categories/${id}`, { requiresAuth: true }),
   },
 
   // خدمات
   services: {
-    list: (page = 1) => api.get("/admin/services", { params: { page }, requiresAuth: true }),
-    show: (id: number) => api.get(`/admin/services/${id}`, { requiresAuth: true }),
-    create: (payload: any) => api.post("/admin/services", payload, { requiresAuth: true }),
-    update: (id: number, payload: any) => api.put(`/admin/services/${id}`, payload, { requiresAuth: true }),
-    delete: (id: number) => api.delete(`/admin/services/${id}`, { requiresAuth: true }),
+    list: (page = 1) =>
+      api.get("/admin/services", { params: { page }, requiresAuth: true }),
+    show: (id: number) =>
+      api.get(`/admin/services/${id}`, { requiresAuth: true }),
+    create: (payload: any) =>
+      api.post("/admin/services", payload, { requiresAuth: true }),
+    update: (id: number, payload: any) =>
+      api.put(`/admin/services/${id}`, payload, { requiresAuth: true }),
+    delete: (id: number) =>
+      api.delete(`/admin/services/${id}`, { requiresAuth: true }),
   },
 
   // متخصص‌ها
   specialists: {
-    list: (page = 1) => api.get("/admin/specialists", { params: { page }, requiresAuth: true }),
-    show: (id: number) => api.get(`/admin/specialists/${id}`, { requiresAuth: true }),
-    create: (payload: any) => api.post("/admin/specialists", payload, { requiresAuth: true }),
-    update: (id: number, payload: any) => api.put(`/admin/specialists/${id}`, payload, { requiresAuth: true }),
-    delete: (id: number) => api.delete(`/admin/specialists/${id}`, { requiresAuth: true }),
+    list: (page = 1) =>
+      api.get("/admin/specialists", { params: { page }, requiresAuth: true }),
+    show: (id: number) =>
+      api.get(`/admin/specialists/${id}`, { requiresAuth: true }),
+    create: (payload: any) =>
+      api.post("/admin/specialists", payload, { requiresAuth: true }),
+    update: (id: number, payload: any) =>
+      api.put(`/admin/specialists/${id}`, payload, { requiresAuth: true }),
+    delete: (id: number) =>
+      api.delete(`/admin/specialists/${id}`, { requiresAuth: true }),
   },
 
   // نوبت‌ها
   appointments: {
-    list: (params?: { status?: string; specialist_id?: number; branch_id?: number; date_from?: string; date_to?: string; page?: number }) =>
-      api.get("/admin/appointments", { params, requiresAuth: true }),
-    show: (id: number) => api.get(`/admin/appointments/${id}`, { requiresAuth: true }),
-    updateStatus: (id: number, payload: { status: string; admin_note?: string; cancel_reason?: string }) =>
-      api.patch(`/admin/appointments/${id}/status`, payload, { requiresAuth: true }),
+    list: (params?: {
+      status?: string;
+      specialist_id?: number;
+      branch_id?: number;
+      date_from?: string;
+      date_to?: string;
+      page?: number;
+    }) => api.get("/admin/appointments", { params, requiresAuth: true }),
+    show: (id: number) =>
+      api.get(`/admin/appointments/${id}`, { requiresAuth: true }),
+    updateStatus: (
+      id: number,
+      payload: { status: string; admin_note?: string; cancel_reason?: string }
+    ) =>
+      api.patch(`/admin/appointments/${id}/status`, payload, {
+        requiresAuth: true,
+      }),
   },
 
   // کاربران/مشتریان
@@ -285,20 +330,32 @@ export const adminAPI = {
     list: (params?: { search?: string; page?: number }) =>
       api.get("/admin/users", { params, requiresAuth: true }),
     show: (id: number) => api.get(`/admin/users/${id}`, { requiresAuth: true }),
-    toggleActive: (id: number) => api.patch(`/admin/users/${id}/toggle-active`, {}, { requiresAuth: true }),
+    toggleActive: (id: number) =>
+      api.patch(`/admin/users/${id}/toggle-active`, {}, { requiresAuth: true }),
   },
 
   // نظرات
   reviews: {
     list: (params?: { approved?: boolean }) =>
       api.get("/admin/reviews", { params, requiresAuth: true }),
-    approve: (id: number) => api.patch(`/admin/reviews/${id}/approve`, {}, { requiresAuth: true }),
-    delete: (id: number) => api.delete(`/admin/reviews/${id}`, { requiresAuth: true }),
+    approve: (id: number) =>
+      api.patch(`/admin/reviews/${id}/approve`, {}, { requiresAuth: true }),
+    delete: (id: number) =>
+      api.delete(`/admin/reviews/${id}`, { requiresAuth: true }),
   },
 
   // ریفاندهای در انتظار
   payments: {
-    pendingRefunds: (page = 1) => api.get("/admin/payments/pending-refunds", { params: { page }, requiresAuth: true }),
-    markRefunded: (id: number) => api.patch(`/admin/payments/${id}/mark-refunded`, {}, { requiresAuth: true }),
+    pendingRefunds: (page = 1) =>
+      api.get("/admin/payments/pending-refunds", {
+        params: { page },
+        requiresAuth: true,
+      }),
+    markRefunded: (id: number) =>
+      api.patch(
+        `/admin/payments/${id}/mark-refunded`,
+        {},
+        { requiresAuth: true }
+      ),
   },
 };
